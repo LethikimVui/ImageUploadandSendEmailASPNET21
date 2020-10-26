@@ -13,10 +13,10 @@ namespace Services.Services
 
         public BaseService()
         {
-            HttpClientHandler clientHandler = new HttpClientHandler();
-            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
-            httpClient = new HttpClient(clientHandler);
-            //httpClient = new HttpClient();
+            //HttpClientHandler clientHandler = new HttpClientHandler();
+            //clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+            //httpClient = new HttpClient(clientHandler);
+            httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("http://localhost:63979/");
 
         }
