@@ -66,10 +66,12 @@
   <ItemGroup>
     <Compile Include="Common\ResponseResult.cs" />
     <Compile Include="Models\IImages.cs" />
+    <Compile Include="Models\MailContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoreProcedures\SPImage.cs" />
     <Compile Include="ValueObjects\VImage.cs" />
     <Compile Include="ViewModels\AddImageViewModel.cs" />
+    <Compile Include="ViewModels\MailSettingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

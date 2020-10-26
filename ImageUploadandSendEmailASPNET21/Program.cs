@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace ImageUploadASPNET21
+namespace ImageUploadandSendEmailASPNET21
 {
     public class Program
     {

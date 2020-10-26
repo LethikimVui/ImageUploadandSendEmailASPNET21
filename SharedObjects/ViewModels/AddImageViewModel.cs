@@ -15,7 +15,7 @@ namespace SharedObjects.ViewModels
         public string Id { get; set; }
         [Required(ErrorMessage = "Please select Link")]
         [Display(Name = "Image")]
-        [FileExtensions(Extensions = "png,jpg,jpeg,gif")]
+        //[FileExtensions(Extensions = "png,jpg,jpeg,gif")]
         public IFormFile Link { get; set; }
     }
 }

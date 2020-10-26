@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageUploadASPNET21", "ImageUploadASPNET21\ImageUploadASPNET21.csproj", "{F29A8E83-1FB3-496B-9A3D-CCF1FA408F2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageUploadandSendEmailASPNET21", "ImageUploadandSendEmailASPNET21\ImageUploadandSendEmailASPNET21.csproj", "{F29A8E83-1FB3-496B-9A3D-CCF1FA408F2A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{999D5D3C-41BD-4A17-BD6F-96649A56F1C9}"
 EndProject

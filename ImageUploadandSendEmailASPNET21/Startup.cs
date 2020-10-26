@@ -10,17 +10,19 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Services.Interfaces;
 using Services.Services;
+using SharedObjects.ViewModels;
 
-namespace ImageUploadASPNET21
+namespace ImageUploadandSendEmailASPNET21
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -33,8 +35,13 @@ namespace ImageUploadASPNET21
             });
 
 
+            services.AddOptions();                                         // Kích hoạt Options
+            var mailsettings = Configuration.GetSection("MailSettings");  // đọc config
+            services.Configure<MailSettingViewModel>(mailsettings);                // đăng ký để Inject
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddTransient<IImageServices, ImageServices>();
+            services.AddTransient<ISendMailService, SendMailService>();
 
         }
 
@@ -53,12 +60,15 @@ namespace ImageUploadASPNET21
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Image}/{action=GetAll}/{id?}");
             });
+
+
         }
     }
 }

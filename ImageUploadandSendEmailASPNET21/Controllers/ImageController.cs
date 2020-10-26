@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
@@ -13,10 +14,12 @@ namespace ImageUploadASPNET21.Controllers
     public class ImageController : Controller
     {
         private readonly IImageServices imageService;
+        private readonly ISendMailService sendMailService;
 
-        public ImageController(IImageServices imageService)
+        public ImageController(IImageServices imageService, ISendMailService sendMailService)
         {
             this.imageService = imageService;
+            this.sendMailService = sendMailService;
         }
         public async Task<IActionResult> GetAll()
         {
@@ -44,7 +47,7 @@ namespace ImageUploadASPNET21.Controllers
                 var result = await imageService.AddImage(image);
                 if (result.StatusCode == 200)
                 {
-
+                    //await SendEmail();
                     return Redirect("/Image/GetAll");
                 }
                 else
@@ -75,6 +78,25 @@ namespace ImageUploadASPNET21.Controllers
                 return e.Message;
             }
             return fileName;
+        }
+        private async Task<string> SendEmail(List<string> tos, string subject, string bodyContent)
+        {
+            string to = null;
+            foreach (var item in tos)
+            {
+                to += item + ";";
+            }
+            MailContent content = new MailContent
+            {
+
+                To = to,//"vui.spk@gmail.com",
+                Subject = subject , //"Kiểm tra thử",
+                Body = bodyContent //"<p><strong>Xin chào xuanthulab.net</strong></p>"
+            };
+
+            await sendMailService.SendMail(content);
+            //await context.Response.WriteAsync("Send mail");
+            return "ok";
         }
     }
 }
