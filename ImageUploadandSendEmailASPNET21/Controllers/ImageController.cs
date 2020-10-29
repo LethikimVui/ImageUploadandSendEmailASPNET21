@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 using SharedObjects.Models;
@@ -21,6 +22,7 @@ namespace ImageUploadASPNET21.Controllers
             this.imageService = imageService;
             this.sendMailService = sendMailService;
         }
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var images = await imageService.GetAll();
@@ -32,7 +34,7 @@ namespace ImageUploadASPNET21.Controllers
             return View();
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Add( AddImageViewModel model)
         {
             if (ModelState.IsValid)
@@ -47,8 +49,9 @@ namespace ImageUploadASPNET21.Controllers
                 var result = await imageService.AddImage(image);
                 if (result.StatusCode == 200)
                 {
-                    //await SendEmail();
-                    return Redirect("/Image/GetAll");
+                    await SendEmail();
+                    //return Redirect("/Image/GetAll");
+                    return Redirect("http://vnhcmm0teapp02/imageapp");
                 }
                 else
                 {
@@ -66,7 +69,9 @@ namespace ImageUploadASPNET21.Controllers
             {
                 var extension = "." + model.Link.FileName.Split('.')[model.Link.FileName.Split('.').Length - 1];
                 fileName = Guid.NewGuid().ToString() + extension; //Create a new Name for the file due to security reasons.
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", fileName);
+                //var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", fileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "C:\\inetpub\\wwwroot\\ImageASPNETCore\\publish\\wwwroot\\images", fileName);
+            
 
                 using (var bits = new FileStream(path, FileMode.Create))
                 {
@@ -79,19 +84,15 @@ namespace ImageUploadASPNET21.Controllers
             }
             return fileName;
         }
-        private async Task<string> SendEmail(List<string> tos, string subject, string bodyContent)
+        private async Task<string> SendEmail ()// (List<string> tos, string subject, string bodyContent)
         {
-            string to = null;
-            foreach (var item in tos)
-            {
-                to += item + ";";
-            }
+           
             MailContent content = new MailContent
             {
 
-                To = to,//"vui.spk@gmail.com",
-                Subject = subject , //"Kiểm tra thử",
-                Body = bodyContent //"<p><strong>Xin chào xuanthulab.net</strong></p>"
+                To = "vui.spk@gmail.com",
+                Subject ="Kiểm tra thử",
+                Body = "<p><strong>Xin chào xuanthulab.net</strong></p>"
             };
 
             await sendMailService.SendMail(content);
